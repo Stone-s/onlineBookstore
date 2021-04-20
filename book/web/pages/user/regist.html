@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>尚硅谷会员注册页面</title>
-    <link type="text/css" rel="stylesheet" href="../../static/css/style.css">
+    <!--    永远固定相对路径跳转到的结果-->
+    <base href="http://localhost:8080/book/">
+    <link type="text/css" rel="stylesheet" href="static/css/style.css">
     <style type="text/css">
         .login_form {
             height: 420px;
@@ -11,7 +13,7 @@
         }
     </style>
     <!--引入JQuery-->
-    <script src="../../static/Jquery.js"></script>
+    <script src="static/Jquery.js"></script>
     <script>
         <!--页面加载结束-->
         $(function () {
@@ -19,14 +21,43 @@
                 //    校验用户名 要求5-12个字符 由字母和下划线组成
                 var userName = $("#username").val();
                 //    创建正则表达式  正则表达式是不用添加引号的
-                var usernamePatt = /^\w(5,12)$/;
+                var usernamePatt = /^\w{5,12}$/;
                 var isRight = usernamePatt.test(userName);
                 if (!isRight) {
                     //提示用户错误信息  元素名类名
                     $("span.errorMsg").text("用户名不合法,请重新输入!");
                     return false;
                 }
-
+                //    校验密码 要求5-12个字符 由字母和下划线组成
+                var password = $("#password").val();
+                //    创建正则表达式  正则表达式是不用添加引号的
+                var passwordPatt = /^\w{5,12}$/;
+                if (!passwordPatt.test(password)) {
+                    //提示用户错误信息  元素名类名
+                    $("span.errorMsg").text("密码不合法,请重新输入!");
+                    return false;
+                }
+                //  验证确认密码 不一致,提示用户错误信息
+                var repwd = $("#repwd").val();
+                if (repwd != password) {
+                    $("span.errorMsg").text("两次密码输入不一致!");
+                    return false;
+                }
+                //验证邮箱
+                var emailPatt = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+                var emailText = $("#email").val();
+                if (!emailPatt.test(emailText)) {
+                    $("span.errorMsg").text("请输入正确的邮箱!");
+                    return false;
+                }
+                //校验验证码
+                var codeText = $("#code").val().trim();
+                if (codeText == null || codeText == "") {
+                    $("span.errorMsg").text("验证码错误");
+                    return false;
+                }
+                //    校验正确以后,取消显示错误提示信息
+                $("span.errorMsg").text("");
 
             });
         });
@@ -34,7 +65,7 @@
 </head>
 <body>
 <div id="login_header">
-    <img class="logo_img" alt="" src="../../static/img/logo.gif">
+    <img class="logo_img" alt="" src="static/img/logo.gif">
 </div>
 
 <div class="login_banner">
@@ -51,7 +82,7 @@
                     <span class="errorMsg"></span>
                 </div>
                 <div class="form">
-                    <form action="regist_success.html">
+                    <form action="registerServlet" method="post">
                         <label>用户名称：</label>
                         <input class="itxt" type="text" placeholder="请输入用户名" autocomplete="off" tabindex="1"
                                name="username" id="username"/>
@@ -73,8 +104,8 @@
                         <br/>
                         <br/>
                         <label>验证码：</label>
-                        <input class="itxt" type="text" style="width: 150px;" id="code"/>
-                        <img alt="" src="../../static/img/code.bmp" style="float: right; margin-right: 40px">
+                        <input class="itxt" type="text" style="width: 150px;" name="code" id="code"/>
+                        <img alt="" src="static/img/code.bmp" style="float: right; margin-right: 40px">
                         <br/>
                         <br/>
                         <input type="submit" value="注册" id="sub_btn"/>

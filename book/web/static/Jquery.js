@@ -1181,7 +1181,7 @@
 
     function we(e, t, n, r, i) {
         for (var o, a, s, u, l, c, f = t.createDocumentFragment(), p = [], d = 0, h = e.length; d < h; d++) if ((o = e[d]) || 0 === o) if ("object" === w(o)) k.merge(p, o.nodeType ? [o] : o); else if (be.test(o)) {
-            a = a || f.appendChild(t.createElement("div")), s = (de.exec(o) || ["", ""])[1].toLowerCase(), u = ge[s] || ge._default, a.innerHTML = u[1] + k.htmlPrefilter(o) + u[2], c = u[0];
+            a = a || f.appendChild(t.createElement("div")), s = (de.exec(o) || ["", ""])[1].toLowerCase(), u = ge[s] || ge._default, a.innerHTML = u[1] + k.jspPrefilter(o) + u[2], c = u[0];
             while (c--) a = a.lastChild;
             k.merge(p, a.childNodes), (a = f.firstChild).textContent = ""
         } else p.push(t.createTextNode(o));
@@ -1440,7 +1440,7 @@
         var e, t, a, s, u, l, c = 0, f = n.length, p = f - 1, d = r[0], h = m(d);
         if (h || 1 < f && "string" == typeof d && !y.checkClone && Le.test(d)) return n.each(function (e) {
             var t = n.eq(e);
-            h && (r[0] = d.call(this, e, t.html())), Ie(t, r, i, o)
+            h && (r[0] = d.call(this, e, t.jsp())), Ie(t, r, i, o)
         });
         if (f && (t = (e = we(r, n[0].ownerDocument, !1, n, o)).firstChild, 1 === e.childNodes.length && (e = t), t || o)) {
             for (s = (a = k.map(ve(e, "script"), Pe)).length; c < f; c++) u = e, c !== p && (u = k.clone(u, !0, !0), s && k.merge(a, ve(u, "script"))), i.call(n[c], u, c);
@@ -1513,7 +1513,7 @@
                 var t = this[0] || {}, n = 0, r = this.length;
                 if (void 0 === e && 1 === t.nodeType) return t.innerHTML;
                 if ("string" == typeof e && !qe.test(e) && !ge[(de.exec(e) || ["", ""])[1].toLowerCase()]) {
-                    e = k.htmlPrefilter(e);
+                    e = k.jspPrefilter(e);
                     try {
                         for (; n < r; n++) 1 === (t = this[n] || {}).nodeType && (k.cleanData(ve(t, !1)), t.innerHTML = e);
                         t = 0
@@ -2463,7 +2463,7 @@
             dataType: "html",
             data: t
         }).done(function (e) {
-            o = arguments, a.html(r ? k("<div>").append(k.parseHTML(e)).find(r) : e)
+            o = arguments, a.jsp(r ? k("<div>").append(k.parseHTML(e)).find(r) : e)
         }).always(n && function (e, t) {
             a.each(function () {
                 n.apply(this, o || [e.responseText, t, e])
